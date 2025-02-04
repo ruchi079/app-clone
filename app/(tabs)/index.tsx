@@ -1,74 +1,155 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React, { useState } from "react";
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  Image, 
+  StyleSheet, 
+  Alert 
+} from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const App = () => {
+  // State for user input
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-export default function HomeScreen() {
+  // Dummy authentication function
+  const handleLogin = () => {
+    if (username === "testuser" && password === "password123") {
+      Alert.alert("Login Successful", "Welcome to Instagram!");
+    } else {
+      Alert.alert("Login Failed", "Invalid username or password.");
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+    <View style={styles.container}>
+      {/* Instagram Logo */}
+      <Image 
+        source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" }}
+        style={styles.logo}
+      />
 
+      {/* Username Input */}
+      <TextInput
+        style={styles.input}
+        placeholder="Phone number, username, or email"
+        placeholderTextColor="#aaa"
+        value={username}
+        onChangeText={setUsername}
+      />
+
+      {/* Password Input */}
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        placeholderTextColor="#aaa"
+        value={password}
+        onChangeText={setPassword}
+      />
+
+      {/* Login Button */}
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Log In</Text>
+      </TouchableOpacity>
+
+      {/* Forgot Password */}
+      <Text style={styles.forgotPassword}>Forgot your password?</Text>
+
+      {/* OR Separator */}
+      <View style={styles.orContainer}>
+        <View style={styles.line} />
+        <Text style={styles.orText}>OR</Text>
+        <View style={styles.line} />
+      </View>
+
+      {/* Login with Facebook */}
+      <TouchableOpacity>
+        <Text style={styles.fbLogin}>Log in with Facebook</Text>
+      </TouchableOpacity>
+
+      {/* Alert Button */}
+      <TouchableOpacity style={styles.alertButton} onPress={() => Alert.alert("Alert Button pressed")}>
+        <Text style={styles.alertButtonText}>Alert</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+// Styles
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 30,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  input: {
+    width: "100%",
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "#f9f9f9",
+    marginBottom: 15,
+  },
+  loginButton: {
+    backgroundColor: "#0095f6",
+    paddingVertical: 12,
+    width: "100%",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  forgotPassword: {
+    color: "#0095f6",
+    marginTop: 15,
+  },
+  orContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginVertical: 20,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#ddd",
+  },
+  orText: {
+    marginHorizontal: 10,
+    color: "#aaa",
+  },
+  fbLogin: {
+    color: "#385185",
+    fontWeight: "bold",
+  },
+  alertButton: {
+    marginTop: 40,
+    backgroundColor: "#ff4444",
+    paddingVertical: 12,
+    width: "100%",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  alertButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
+
+export default App;
